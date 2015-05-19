@@ -19,5 +19,5 @@ angular.module('webApp')
       $scope.devices.$save(d).then(function() {
         console.log('updated!');
       });
-    }
+    };
   });
