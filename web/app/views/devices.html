@@ -1,0 +1,16 @@
+<!-- Default panel contents -->
+
+<div ng-repeat="d in devices">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4>{{ d.$id }}</h4>
+      Power: {{d.power.value | number : 2}}<br/>
+      Energy: {{d.energy.value | number : 2}}
+
+      <form novalidate class="simple-form">
+        <input type="number" ng-model="d.interval" />
+        <input type="submit" ng-click="update(d)" value="update interval" />
+      </form>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,6 @@ function Channel(name, startValue, startTime, updateFunc) {
 }
 
 Channel.prototype.updateState = function() {
-  console.log('channel', this.name, 'updateState');
   this.time = moment();
   this.value = this.updateFunc(this.value);
 }
