@@ -6,6 +6,7 @@ exports.start = function() {
   console.log('starting', demoDevices.length);
 
   _.each(demoDevices, function(device) {
+    device.writeMeta();
     device.start();
   });
 }

@@ -13,7 +13,17 @@ function Device(name, writeInterval, channels) {
 Device.prototype.start = function() {
   var self = this;
   setInterval(function() { self.updateState() }, config.deviceInterval);
-  setInterval(function() { self.saveState() }, self.writeInterval);
+  var writeIntervalObject = setInterval(function() { self.saveState() }, self.writeInterval);
+
+  dataStore.onChangeWriteInterval(this, function(newWriteInterval) {
+    self.writeInterval = newWriteInterval;
+    clearInterval(writeIntervalObject);
+    writeIntervalObject = setInterval(function() { self.saveState() }, self.writeInterval);
+  });
+}
+
+Device.prototype.writeMeta = function() {
+  dataStore.saveDeviceMetaInformation(this);
 }
 
 Device.prototype.updateState = function() {
@@ -25,7 +35,7 @@ Device.prototype.updateState = function() {
 
 Device.prototype.saveState = function() {
   _.each(this.channels, function(channel) {
-    dataStore.write(this.name, channel.name, channel.time.format(), channel.value);
+    dataStore.writeDataPoint(this.name, channel.name, channel.time.format(), channel.value);
   }, this);
 }
 
